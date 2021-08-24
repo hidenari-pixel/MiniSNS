@@ -17,7 +17,8 @@ import { Timeline } from "../types/timeline";
 
 const TimelineScreen = () => {
   const [text, setText] = useState<string>("");
-  const { timeline, userId, postTimeline, getTimeline, signIn } = useTimeline();
+  const { timelinePosts, userId, postTimeline, getTimeline, signIn } =
+    useTimeline();
   const headerHeight = useHeaderHeight();
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const TimelineScreen = () => {
         style={TimelineScreenStyles.keyboardAvoidingView}
       >
         <FlatList
-          data={timeline}
+          data={timelinePosts}
           renderItem={({ item }: { item: Timeline }) => (
             <TimelineItem userId={userId} item={item} userName={""} />
           )}

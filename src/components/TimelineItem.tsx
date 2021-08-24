@@ -1,21 +1,37 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import useTimeline from "../hooks/useTimeline";
 import { Timeline } from "../types/timeline";
 
 type Props = {
-  userId: string | undefined;
+  userId: string;
   userName: string | number;
   item: Timeline;
 };
 
-export const TimelineItem: React.FC<Props> = ({ item, userName }: Props) => {
+export const TimelineItem: React.FC<Props> = ({
+  item,
+  userId,
+  userName,
+}: Props) => {
+  const { sendLike } = useTimeline();
   return (
     <View style={TimelineItemStyles.container}>
       <View style={TimelineItemStyles.postContainer}>
         <Text style={TimelineItemStyles.userName}>{item.userId}</Text>
         <Text style={TimelineItemStyles.postedText}>{item.text}</Text>
-        <TouchableOpacity style={TimelineItemStyles.likeButtonContainer}>
-          <Text style={TimelineItemStyles.likeButton}>♡</Text>
+        <TouchableOpacity
+          onPress={() => {
+            sendLike(item.index, userId);
+          }}
+          style={TimelineItemStyles.likeButtonContainer}
+        >
+          <Text style={TimelineItemStyles.likeButton}>
+            ♡
+            <Text style={TimelineItemStyles.numberOfLikes}>
+              {item.like.length}
+            </Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -26,7 +42,7 @@ const TimelineItemStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
     backgroundColor: "#fff",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.8,
     borderColor: "#999",
   },
   postContainer: {
@@ -47,6 +63,7 @@ const TimelineItemStyles = StyleSheet.create({
     paddingLeft: 3,
   },
   likeButtonContainer: {
+    flexDirection: "row",
     alignSelf: "flex-end",
     paddingTop: 30,
     paddingBottom: 5,
@@ -54,6 +71,11 @@ const TimelineItemStyles = StyleSheet.create({
   },
   likeButton: {
     color: "red",
-    fontSize: 25,
+    fontSize: 23,
+  },
+  numberOfLikes: {
+    paddingBottom: 0,
+    color: "#999",
+    fontSize: 18,
   },
 });

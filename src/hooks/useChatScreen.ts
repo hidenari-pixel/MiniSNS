@@ -1,9 +1,9 @@
+import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getMessageDocRef, getUserId } from "../lib/firebase";
 import firebase from "firebase";
-import { Message } from "../types/Message";
 import { AppState, module } from "../modules/Reducers";
-import { Alert } from "react-native";
+import { Message } from "../types/Message";
 
 const useChatScreen = () => {
   const { messages, userId } = useSelector((state: AppState) => state);

@@ -2,14 +2,20 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   messages: [],
-  timeline: [],
   userId: "",
+  postIndex: 0,
 };
 
 export const module = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    setIndex: (state, action) => {
+      return {
+        ...state,
+        postIndex: action.payload,
+      };
+    },
     setMessages: (state, action) => {
       return {
         ...state,
@@ -20,12 +26,6 @@ export const module = createSlice({
       return {
         ...state,
         userId: action.payload,
-      };
-    },
-    setTimeline: (state, action) => {
-      return {
-        ...state,
-        timeline: action.payload,
       };
     },
   },
