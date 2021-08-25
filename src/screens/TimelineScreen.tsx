@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -17,12 +16,13 @@ import { Timeline } from "../types/timeline";
 
 const TimelineScreen = () => {
   const [text, setText] = useState<string>("");
-  const { timelinePosts, userId, postTimeline, getTimeline, signIn } =
+  const { timelinePosts, userId, getUsers, postTimeline, getTimeline, signIn } =
     useTimeline();
   const headerHeight = useHeaderHeight();
 
   useEffect(() => {
     signIn();
+    getUsers();
     getTimeline();
   }, []);
 
@@ -40,7 +40,7 @@ const TimelineScreen = () => {
         <FlatList
           data={timelinePosts}
           renderItem={({ item }: { item: Timeline }) => (
-            <TimelineItem userId={userId} item={item} userName={""} />
+            <TimelineItem userId={userId} item={item} />
           )}
           keyExtractor={(_, index) => index.toString()}
         />

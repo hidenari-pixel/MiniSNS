@@ -5,11 +5,12 @@ import { AppState, module } from "../modules/Reducers";
 import { Timeline } from "../types/timeline";
 import { Alert } from "react-native";
 import { useState } from "react";
+import { create } from "react-test-renderer";
 
 const useTimeline = () => {
   const [timelinePosts, setPosts] = useState<Timeline[]>([]);
   const { postIndex, userId } = useSelector((state: AppState) => state);
-  const { setIndex, setUserId } = module.actions;
+  const { setIndex, setUserId, setUserNames } = module.actions;
   const dispatch = useDispatch();
 
   const postTimeline = async (value: string, uid: string | undefined) => {
@@ -38,17 +39,19 @@ const useTimeline = () => {
     const timelineDB = firebase.firestore().collection("timeline");
     timelineDB.orderBy("createdAt").onSnapshot((snapshot) => {
       snapshot.docChanges().map((change) => {
-        const { index, text, userId, like } = change.doc.data();
+        const { index, text, userId, like, createdAt } = change.doc.data();
         if (change.type === "added") {
           pastTimelinePosts.unshift({
+            createdAt: createdAt,
             index: index,
             text: text,
             userId: userId,
             like: like,
           } as Timeline);
         } else if (change.type === "modified") {
-          const { index, text, userId, like } = change.doc.data();
+          const { index, text, userId, like, createdAt } = change.doc.data();
           const modifiededPost = {
+            createdAt: createdAt,
             index: index,
             text: text,
             userId: userId,
@@ -86,6 +89,36 @@ const useTimeline = () => {
     });
   };
 
+  // const getPostedTimes = () => {
+  //   const postedTimes = [] as any[];
+  //   const timelineDB = firebase.firestore().collection("timeline");
+  //   timelineDB.onSnapshot((snapshot) => {
+  //     snapshot.docs.map((post) => {
+  //       const postIndex = post.data().index;
+  //       const postedTime = post.data().createdAt;
+  //       postedTime.push({
+  //         [postIndex]: postedTime,
+  //       } as any);
+  //     });
+  //     setPostedTimes(postedTimes);
+  //   });
+  // };
+
+  const getUsers = () => {
+    const usersDB = firebase.firestore().collection("users");
+    const registeredUsers = [] as string[];
+    usersDB.onSnapshot((snapshot) => {
+      snapshot.docs.map((user) => {
+        const uid = user.data().userId;
+        const userName = user.data().name;
+        registeredUsers.push({
+          [uid]: userName,
+        } as string);
+      });
+      dispatch(setUserNames(registeredUsers));
+    });
+  };
+
   const signIn = async () => {
     const uid = await getUserId();
     dispatch(setUserId(uid));
@@ -94,6 +127,7 @@ const useTimeline = () => {
   return {
     timelinePosts,
     userId,
+    getUsers,
     postTimeline,
     getTimeline,
     signIn,

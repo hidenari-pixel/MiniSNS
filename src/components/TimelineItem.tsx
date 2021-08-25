@@ -1,24 +1,32 @@
 import React from "react";
+import dayjs from "dayjs";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import useTimeline from "../hooks/useTimeline";
+import useUsersInfomation from "../hooks/useUsersInfomation";
 import { Timeline } from "../types/timeline";
 
 type Props = {
   userId: string;
-  userName: string | number;
   item: Timeline;
 };
 
-export const TimelineItem: React.FC<Props> = ({
-  item,
-  userId,
-  userName,
-}: Props) => {
+export const TimelineItem: React.FC<Props> = ({ item, userId }: Props) => {
   const { sendLike } = useTimeline();
+  const { users, showName } = useUsersInfomation();
+  const userName = showName(users, item.userId);
+  console.log(item.createdAt.toDate());
   return (
     <View style={TimelineItemStyles.container}>
       <View style={TimelineItemStyles.postContainer}>
-        <Text style={TimelineItemStyles.userName}>{item.userId}</Text>
+        <Text style={TimelineItemStyles.userName}>
+          {"<"}
+          {userName}
+          {"> の投稿"}
+          {"  "}
+          <Text style={{ marginLeft: 10 }}>
+            {dayjs(item.createdAt.toDate()).format("YYYY/MM/DD HH:mm")}
+          </Text>
+        </Text>
         <Text style={TimelineItemStyles.postedText}>{item.text}</Text>
         <TouchableOpacity
           onPress={() => {
@@ -55,8 +63,9 @@ const TimelineItemStyles = StyleSheet.create({
   userName: {
     width: "50%",
     fontSize: 10,
-    color: "#999",
+    color: "#003",
     paddingBottom: 10,
+    paddingLeft: 8,
   },
   postedText: {
     paddingTop: 5,

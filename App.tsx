@@ -6,19 +6,24 @@ import { Provider } from "react-redux";
 import { store } from "./src/modules/Reducers";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { NativeBaseProvider } from "native-base";
+import EnterScreen from "./src/screens/EnterScreen";
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Provider store={store}>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Chat Room" component={ChatScreen} />
-          <Stack.Screen name="Timeline" component={TimelineScreen} />
-        </Stack.Navigator>
-      </Provider>
+      <NativeBaseProvider>
+        <Provider store={store}>
+          <Stack.Navigator>
+            <Stack.Screen name="MiniSNS" component={EnterScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Chat Room" component={ChatScreen} />
+            <Stack.Screen name="Timeline" component={TimelineScreen} />
+          </Stack.Navigator>
+        </Provider>
+      </NativeBaseProvider>
     </NavigationContainer>
   );
 };

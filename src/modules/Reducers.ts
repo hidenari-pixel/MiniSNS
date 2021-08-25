@@ -1,9 +1,12 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { Message } from "../types/Message";
+import { Timeline } from "../types/timeline";
 
 const initialState = {
-  messages: [],
-  userId: "",
-  postIndex: 0,
+  messages: [] as Message[],
+  users: [] as string[],
+  userId: "" as string,
+  postIndex: 0 as number,
 };
 
 export const module = createSlice({
@@ -26,6 +29,12 @@ export const module = createSlice({
       return {
         ...state,
         userId: action.payload,
+      };
+    },
+    setUserNames: (state, action) => {
+      return {
+        ...state,
+        users: action.payload,
       };
     },
   },

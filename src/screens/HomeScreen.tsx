@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Button, SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { StatusBar as HomeStatusBar } from "expo-status-bar";
+import { Button, Text, View } from "native-base";
 import { NavigationProps } from "../types/navigation";
 
 const HomeScreen = (props: NavigationProps) => {
@@ -8,16 +9,14 @@ const HomeScreen = (props: NavigationProps) => {
     <SafeAreaView style={HomeScreenStyles.container}>
       <HomeStatusBar style="dark" />
       <View style={HomeScreenStyles.buttonStyleContainer}>
-        <Button
-          title="Chat"
-          onPress={() => props.navigation.navigate("Chat Room")}
-        />
+        <Button onPress={() => props.navigation.navigate("Chat Room")}>
+          <Text>Chat</Text>
+        </Button>
       </View>
       <View style={HomeScreenStyles.buttonStyleContainer}>
-        <Button
-          title="Timeline"
-          onPress={() => props.navigation.navigate("Timeline")}
-        />
+        <Button onPress={() => props.navigation.navigate("Timeline")}>
+          <Text>Timeline</Text>
+        </Button>
       </View>
     </SafeAreaView>
   );

@@ -28,35 +28,32 @@ const useChatScreen = () => {
     const pastMessages = [] as Message[];
     let retensionMessage = [] as Message[];
     let isPastFlag: boolean = true;
-    firebase
-      .firestore()
-      .collection("message")
-      .orderBy("createdAt")
-      .onSnapshot((snapshot) => {
-        snapshot.docChanges().map((change) => {
-          const { text, userId } = change.doc.data();
-          if (change.type === "added" && isPastFlag) {
-            pastMessages.unshift({
-              text: text,
-              userId: userId,
-            } as Message);
-          } else {
-            retensionMessage.unshift({
-              text: text,
-              userId: userId,
-            } as Message);
-            const currentMessage = [
-              ...retensionMessage,
-              ...pastMessages,
-            ] as Message[];
-            dispatch(setMessages(currentMessage));
-          }
-        });
-        if (isPastFlag) {
-          isPastFlag = false;
-          dispatch(setMessages(pastMessages));
+    const messagesDB = firebase.firestore().collection("message");
+    messagesDB.orderBy("createdAt").onSnapshot((snapshot) => {
+      snapshot.docChanges().map((change) => {
+        const { text, userId } = change.doc.data();
+        if (change.type === "added" && isPastFlag) {
+          pastMessages.unshift({
+            text: text,
+            userId: userId,
+          } as Message);
+        } else {
+          retensionMessage.unshift({
+            text: text,
+            userId: userId,
+          } as Message);
+          const currentMessage = [
+            ...retensionMessage,
+            ...pastMessages,
+          ] as Message[];
+          dispatch(setMessages(currentMessage));
         }
       });
+      if (isPastFlag) {
+        isPastFlag = false;
+        dispatch(setMessages(pastMessages));
+      }
+    });
   };
 
   const signIn = async () => {
