@@ -5,7 +5,6 @@ import { AppState, module } from "../modules/Reducers";
 import { Timeline } from "../types/timeline";
 import { Alert } from "react-native";
 import { useState } from "react";
-import { create } from "react-test-renderer";
 
 const useTimeline = () => {
   const [timelinePosts, setPosts] = useState<Timeline[]>([]);
@@ -88,21 +87,6 @@ const useTimeline = () => {
       }
     });
   };
-
-  // const getPostedTimes = () => {
-  //   const postedTimes = [] as any[];
-  //   const timelineDB = firebase.firestore().collection("timeline");
-  //   timelineDB.onSnapshot((snapshot) => {
-  //     snapshot.docs.map((post) => {
-  //       const postIndex = post.data().index;
-  //       const postedTime = post.data().createdAt;
-  //       postedTime.push({
-  //         [postIndex]: postedTime,
-  //       } as any);
-  //     });
-  //     setPostedTimes(postedTimes);
-  //   });
-  // };
 
   const getUsers = () => {
     const usersDB = firebase.firestore().collection("users");

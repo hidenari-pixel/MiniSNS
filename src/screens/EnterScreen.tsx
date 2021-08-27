@@ -6,7 +6,7 @@ import { NavigationProps } from "../types/navigation";
 import useEnterScreen from "../hooks/useEnterScreen";
 import { useState } from "react";
 
-const EnterScreen = (props: NavigationProps) => {
+const EnterScreen = () => {
   const [text, setText] = useState<string>("");
   const { userId, signIn, enterHome, registerName } = useEnterScreen();
 
@@ -15,7 +15,7 @@ const EnterScreen = (props: NavigationProps) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         const userId = user.uid;
-        enterHome(props, userId);
+        enterHome(userId);
       }
     });
   }, []);
@@ -36,7 +36,7 @@ const EnterScreen = (props: NavigationProps) => {
             roundedLeft={0}
             roundedRight="md"
             onPress={() => {
-              registerName(text, userId, props);
+              registerName(text, userId);
               setText("");
             }}
           >

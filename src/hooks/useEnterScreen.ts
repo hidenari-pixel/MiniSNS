@@ -7,11 +7,11 @@ import { NavigationProps } from "../types/navigation";
 import { Users } from "../types/users";
 
 const useEnterScreen = () => {
-  const { userId } = useSelector((state: AppState) => state);
-  const { setUserId } = module.actions;
+  const { login, userId } = useSelector((state: AppState) => state);
+  const { setLogin, setUserId } = module.actions;
   const dispatch = useDispatch();
 
-  const enterHome = (props: NavigationProps, userId: string) => {
+  const enterHome = (userId: string) => {
     const registeredUsers = [] as string[];
     const usersDB = firebase.firestore().collection("users");
     usersDB.onSnapshot((snapshot) => {
@@ -19,7 +19,8 @@ const useEnterScreen = () => {
         const uid = user.data().userId;
         registeredUsers.unshift(uid);
         if (userId === uid) {
-          props.navigation.navigate("Home");
+          dispatch(setLogin(true));
+          // props.navigation.navigate("Home");
         }
       });
     });
@@ -27,8 +28,8 @@ const useEnterScreen = () => {
 
   const registerName = async (
     value: string,
-    uid: string | undefined,
-    props: NavigationProps
+    uid: string | undefined
+    // props: NavigationProps
   ) => {
     const nameLength = Array.from(value).length;
     if (nameLength > 0 && nameLength < 20) {
@@ -38,7 +39,8 @@ const useEnterScreen = () => {
         createdAt: firebase.firestore.Timestamp.now(),
         userId: uid,
       } as Users;
-      props.navigation.navigate("Home");
+      dispatch(setLogin(true));
+      // props.navigation.navigate("Home");
       await usersDBRef.set(newUser);
     } else {
       Alert.alert("名前は1字以上20字以下で登録してください");

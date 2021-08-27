@@ -3,6 +3,7 @@ import { Message } from "../types/Message";
 import { Timeline } from "../types/timeline";
 
 const initialState = {
+  login: false as boolean,
   messages: [] as Message[],
   users: [] as string[],
   userId: "" as string,
@@ -35,6 +36,12 @@ export const module = createSlice({
       return {
         ...state,
         users: action.payload,
+      };
+    },
+    setLogin: (state, action) => {
+      return {
+        ...state,
+        login: action.payload,
       };
     },
   },
