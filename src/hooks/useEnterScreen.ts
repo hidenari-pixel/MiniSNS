@@ -3,11 +3,10 @@ import firebase from "firebase";
 import { getUserId } from "../lib/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState, module } from "../modules/Reducers";
-import { NavigationProps } from "../types/navigation";
 import { Users } from "../types/users";
 
 const useEnterScreen = () => {
-  const { login, userId } = useSelector((state: AppState) => state);
+  const { userId } = useSelector((state: AppState) => state);
   const { setLogin, setUserId } = module.actions;
   const dispatch = useDispatch();
 
@@ -20,17 +19,12 @@ const useEnterScreen = () => {
         registeredUsers.unshift(uid);
         if (userId === uid) {
           dispatch(setLogin(true));
-          // props.navigation.navigate("Home");
         }
       });
     });
   };
 
-  const registerName = async (
-    value: string,
-    uid: string | undefined
-    // props: NavigationProps
-  ) => {
+  const registerName = async (value: string, uid: string | undefined) => {
     const nameLength = Array.from(value).length;
     if (nameLength > 0 && nameLength < 20) {
       const usersDBRef = firebase.firestore().collection("users").doc();
@@ -40,7 +34,6 @@ const useEnterScreen = () => {
         userId: uid,
       } as Users;
       dispatch(setLogin(true));
-      // props.navigation.navigate("Home");
       await usersDBRef.set(newUser);
     } else {
       Alert.alert("名前は1字以上20字以下で登録してください");

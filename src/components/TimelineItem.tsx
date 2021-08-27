@@ -1,9 +1,11 @@
 import React from "react";
 import dayjs from "dayjs";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import useTimeline from "../hooks/useTimeline";
 import useUsersInfomation from "../hooks/useUsersInfomation";
 import { Timeline } from "../types/timeline";
+import { IconButton } from "native-base";
 
 type Props = {
   userId: string;
@@ -14,7 +16,7 @@ export const TimelineItem: React.FC<Props> = ({ item, userId }: Props) => {
   const { sendLike } = useTimeline();
   const { users, showName } = useUsersInfomation();
   const userName = showName(users, item.userId);
-  console.log(item.createdAt.toDate());
+
   return (
     <View style={TimelineItemStyles.container}>
       <View style={TimelineItemStyles.postContainer}>
@@ -28,19 +30,24 @@ export const TimelineItem: React.FC<Props> = ({ item, userId }: Props) => {
           </Text>
         </Text>
         <Text style={TimelineItemStyles.postedText}>{item.text}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            sendLike(item.index, userId);
-          }}
-          style={TimelineItemStyles.likeButtonContainer}
-        >
-          <Text style={TimelineItemStyles.likeButton}>
-            ♡
-            <Text style={TimelineItemStyles.numberOfLikes}>
-              {item.like.length}
-            </Text>
+        <View style={TimelineItemStyles.likeButtonContainer}>
+          <IconButton
+            mb={1}
+            rounded="full"
+            style={TimelineItemStyles.likeButton}
+            onPress={() => sendLike(item.index, userId)}
+            icon={
+              <MaterialCommunityIcons
+                color={item.like.includes(userId) ? "#FF3333" : "#999"}
+                size={20}
+                name="heart"
+              />
+            }
+          />
+          <Text style={TimelineItemStyles.numberOfLikes}>
+            {item.like.length}
           </Text>
-        </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -70,21 +77,19 @@ const TimelineItemStyles = StyleSheet.create({
   postedText: {
     paddingTop: 5,
     paddingLeft: 3,
+    paddingBottom: 15,
   },
   likeButtonContainer: {
     flexDirection: "row",
     alignSelf: "flex-end",
-    paddingTop: 30,
-    paddingBottom: 5,
-    paddingRight: 25,
+    paddingRight: 10,
   },
   likeButton: {
-    color: "red",
-    fontSize: 23,
+    width: 50,
   },
   numberOfLikes: {
-    paddingBottom: 0,
+    paddingTop: 8,
     color: "#999",
-    fontSize: 18,
+    fontSize: 15,
   },
 });

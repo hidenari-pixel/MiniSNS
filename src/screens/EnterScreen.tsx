@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import firebase from "firebase";
 import { StyleSheet } from "react-native";
 import { Container, Input, Button } from "native-base";
-import { NavigationProps } from "../types/navigation";
 import useEnterScreen from "../hooks/useEnterScreen";
 import { useState } from "react";
 

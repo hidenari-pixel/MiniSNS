@@ -1,6 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Message } from "../types/Message";
-import { Timeline } from "../types/timeline";
 
 const initialState = {
   login: false as boolean,
