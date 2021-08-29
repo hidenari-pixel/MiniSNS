@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserId } from "../lib/firebase";
-import { AppState, module } from "../modules/Reducers";
+import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Timeline } from "../types/timeline";
 import { Alert } from "react-native";
 import { useState } from "react";
@@ -10,7 +10,7 @@ const useTimeline = () => {
   const [timelinePosts, setPosts] = useState<Timeline[]>([]);
   const { postIndex, userId } = useSelector((state: AppState) => state);
   const { setIndex, setUserId, setUserNames } = module.actions;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const postTimeline = async (value: string, uid: string | undefined) => {
     const textLength = Array.from(value).length;

@@ -2,15 +2,17 @@ import { Alert } from "react-native";
 import firebase from "firebase";
 import { getUserId } from "../lib/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { AppState, module } from "../modules/Reducers";
+import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Users } from "../types/users";
 
 const useEnterScreen = () => {
-  const { userId } = useSelector((state: AppState) => state);
+  const { userId, isLogin, isLoading } = useSelector(
+    (state: AppState) => state
+  );
   const { setLogin, setUserId } = module.actions;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
-  const enterHome = (userId: string) => {
+  const enterHome = async (userId: string) => {
     const registeredUsers = [] as string[];
     const usersDB = firebase.firestore().collection("users");
     usersDB.onSnapshot((snapshot) => {
@@ -18,9 +20,21 @@ const useEnterScreen = () => {
         const uid = user.data().userId;
         registeredUsers.unshift(uid);
         if (userId === uid) {
-          dispatch(setLogin(true));
+          console.log(userId);
+          const registeredPayload = {
+            isLogin: true,
+            isLoading: false,
+          };
+          dispatch(setLogin(registeredPayload));
         }
       });
+      if (!registeredUsers.includes(userId)) {
+        const unRegisteredPayload = {
+          isLogin: false,
+          isLoading: false,
+        };
+        dispatch(setLogin(unRegisteredPayload));
+      }
     });
   };
 
@@ -33,7 +47,11 @@ const useEnterScreen = () => {
         createdAt: firebase.firestore.Timestamp.now(),
         userId: uid,
       } as Users;
-      dispatch(setLogin(true));
+      const payload = {
+        isLoading: true,
+        isLogin: true,
+      };
+      dispatch(setLogin(payload));
       await usersDBRef.set(newUser);
     } else {
       Alert.alert("名前は1字以上20字以下で登録してください");
@@ -47,6 +65,8 @@ const useEnterScreen = () => {
 
   return {
     userId,
+    isLogin,
+    isLoading,
     signIn,
     enterHome,
     registerName,

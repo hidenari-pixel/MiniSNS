@@ -2,7 +2,8 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { Message } from "../types/Message";
 
 const initialState = {
-  login: false as boolean,
+  isLogin: false as boolean,
+  isLoading: true as boolean,
   messages: [] as Message[],
   users: [] as string[],
   userId: "" as string,
@@ -10,7 +11,7 @@ const initialState = {
 };
 
 export const module = createSlice({
-  name: "chat",
+  name: "miniSns",
   initialState,
   reducers: {
     setIndex: (state, action) => {
@@ -38,15 +39,19 @@ export const module = createSlice({
       };
     },
     setLogin: (state, action) => {
+      const { isLogin, isLoading } = action.payload;
       return {
         ...state,
-        login: action.payload,
+        isLogin: isLogin,
+        isLoading: isLoading,
       };
     },
   },
 });
 
 export type AppState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
 
 export const store = configureStore({
   reducer: module.reducer,

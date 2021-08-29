@@ -6,11 +6,9 @@ const useUsersInfomation = () => {
 
   // userId の型なににすればええんや...
   const showName = (users: string[], userId: any) => {
-    let name = "" as string;
-    users.map((item) => {
+    const name = users.map((item) => {
       if (Object.keys(item).includes(userId)) {
-        name = item[userId];
-        return name;
+        return item[userId];
       }
     });
     return name;

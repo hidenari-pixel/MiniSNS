@@ -10,8 +10,8 @@ import { AppState } from "../modules/Reducers";
 const Stack = createStackNavigator();
 
 const StackNavigatorScreen = () => {
-  const { login } = useSelector((state: AppState) => state);
-  if (!login) {
+  const { isLogin } = useSelector((state: AppState) => state);
+  if (!isLogin) {
     return <EnterScreen />;
   } else {
     return (

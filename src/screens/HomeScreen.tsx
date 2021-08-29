@@ -9,12 +9,18 @@ const HomeScreen = (props: NavigationProps) => {
     <SafeAreaView style={HomeScreenStyles.container}>
       <HomeStatusBar style="dark" />
       <View style={HomeScreenStyles.buttonStyleContainer}>
-        <Button onPress={() => props.navigation.navigate("Chat Room")}>
+        <Button
+          onPress={() => props.navigation.navigate("Chat Room")}
+          rounded="full"
+        >
           <Text>Chat</Text>
         </Button>
       </View>
       <View style={HomeScreenStyles.buttonStyleContainer}>
-        <Button onPress={() => props.navigation.navigate("Timeline")}>
+        <Button
+          onPress={() => props.navigation.navigate("Timeline")}
+          rounded="full"
+        >
           <Text>Timeline</Text>
         </Button>
       </View>

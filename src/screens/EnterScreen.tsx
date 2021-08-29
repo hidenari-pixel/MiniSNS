@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import firebase from "firebase";
 import { StyleSheet } from "react-native";
 import { Container, Input, Button } from "native-base";
 import useEnterScreen from "../hooks/useEnterScreen";
-import { useState } from "react";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const EnterScreen = () => {
   const [text, setText] = useState<string>("");
-  const { userId, signIn, enterHome, registerName } = useEnterScreen();
+  const { isLoading, userId, signIn, enterHome, registerName } =
+    useEnterScreen();
 
   useEffect(() => {
     signIn();
@@ -21,6 +22,11 @@ const EnterScreen = () => {
 
   return (
     <Container flex={1} style={EnterScreenStyle.container}>
+      <Spinner
+        visible={isLoading}
+        textContent="Loading..."
+        overlayColor="rgba(0, 0, 0, 0.6)"
+      />
       <Input
         w="100%"
         mx={10}
@@ -52,5 +58,9 @@ export default EnterScreen;
 const EnterScreenStyle = StyleSheet.create({
   container: {
     justifyContent: "center",
+  },
+  loadingSpinner: {
+    alignSelf: "center",
+    paddingLeft: 80,
   },
 });
