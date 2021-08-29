@@ -1,5 +1,5 @@
 import React from "react";
-import StackNavigatorScreen from "./src/screens/StackNavigationScreen";
+import StackNavigationScreen from "./src/screens/StackNavigationScreen";
 import { Provider } from "react-redux";
 import { store } from "./src/modules/Reducers";
 import { NavigationContainer } from "@react-navigation/native";
@@ -10,7 +10,7 @@ const App = () => {
     <NavigationContainer>
       <NativeBaseProvider>
         <Provider store={store}>
-          <StackNavigatorScreen />
+          <StackNavigationScreen />
         </Provider>
       </NativeBaseProvider>
     </NavigationContainer>
