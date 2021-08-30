@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Users } from "../types/users";
 
-const useEnterScreen = () => {
+const useEnter = () => {
   const { userId, isLogin, isLoading } = useSelector(
     (state: AppState) => state
   );
@@ -73,4 +73,4 @@ const useEnterScreen = () => {
   };
 };
 
-export default useEnterScreen;
+export default useEnter;
