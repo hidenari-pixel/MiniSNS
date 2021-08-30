@@ -5,7 +5,7 @@ import firebase from "firebase";
 import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Message } from "../types/Message";
 
-const useChatScreen = () => {
+const useChat = () => {
   const { messages, userId } = useSelector((state: AppState) => state);
   const { setMessages, setUserId } = module.actions;
   const dispatch: AppDispatch = useDispatch();
@@ -70,4 +70,4 @@ const useChatScreen = () => {
   };
 };
 
-export default useChatScreen;
+export default useChat;
