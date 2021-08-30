@@ -69,5 +69,4 @@ const useChat = () => {
     signIn,
   };
 };
-
 export default useChat;
