@@ -9,7 +9,7 @@ import {
   FlatList,
   Platform,
 } from "react-native";
-import useChatScreen from "../hooks/useChatScreen";
+import useChat from "../hooks/useChat";
 import { StatusBar as ChatStatusBar } from "expo-status-bar";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Message } from "../types/Message";
@@ -17,8 +17,7 @@ import { MessageItem } from "../components/MessageItem";
 
 const ChatScreen = () => {
   const [text, setText] = useState<string>("");
-  const { messages, userId, sendMessage, getMessages, signIn } =
-    useChatScreen();
+  const { messages, userId, sendMessage, getMessages, signIn } = useChat();
   const headerHeight = useHeaderHeight();
 
   useEffect(() => {

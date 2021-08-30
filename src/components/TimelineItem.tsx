@@ -1,11 +1,11 @@
 import React from "react";
-import dayjs from "dayjs";
 import { View, Text, StyleSheet } from "react-native";
+import { IconButton } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import useTimeline from "../hooks/useTimeline";
 import useUsersInfomation from "../hooks/useUsersInfomation";
 import { Timeline } from "../types/timeline";
-import { IconButton } from "native-base";
+import dayjs from "dayjs";
 
 type Props = {
   userId: string;

@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase";
 import { StyleSheet } from "react-native";
 import { Container, Input, Button } from "native-base";
-import useEnterScreen from "../hooks/useEnterScreen";
+import useEnter from "../hooks/useEnter";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const EnterScreen = () => {
   const [text, setText] = useState<string>("");
-  const { isLoading, userId, signIn, enterHome, registerName } =
-    useEnterScreen();
+  const { isLoading, userId, signIn, enterHome, registerName } = useEnter();
 
   useEffect(() => {
     signIn();

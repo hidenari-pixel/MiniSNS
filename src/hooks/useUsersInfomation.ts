@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../modules/Reducers";
 
 const useUsersInfomation = () => {
-  const { users } = useSelector((state: AppState) => state);
+  const { users, isLogin } = useSelector((state: AppState) => state);
 
   // userId の型なににすればええんや...
   const showName = (users: string[], userId: any) => {
@@ -16,6 +16,7 @@ const useUsersInfomation = () => {
 
   return {
     users,
+    isLogin,
     showName,
   };
 };

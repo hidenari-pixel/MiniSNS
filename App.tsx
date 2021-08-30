@@ -1,16 +1,16 @@
 import React from "react";
-import StackNavigatorScreen from "./src/screens/StackNavigationScreen";
 import { Provider } from "react-redux";
 import { store } from "./src/modules/Reducers";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
+import BottomTabNavigationScreen from "./src/screens/BottomTabNavigationScreen";
 
 const App = () => {
   return (
     <NavigationContainer>
       <NativeBaseProvider>
         <Provider store={store}>
-          <StackNavigatorScreen />
+          <BottomTabNavigationScreen />
         </Provider>
       </NativeBaseProvider>
     </NavigationContainer>

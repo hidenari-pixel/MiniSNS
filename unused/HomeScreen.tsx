@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { StatusBar as HomeStatusBar } from "expo-status-bar";
 import { Button, Text, View } from "native-base";
-import { NavigationProps } from "../types/navigation";
+import { NavigationProps } from "../src/types/navigation";
 
 const HomeScreen = (props: NavigationProps) => {
   return (
