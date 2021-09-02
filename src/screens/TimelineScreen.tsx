@@ -13,11 +13,13 @@ import { StatusBar as TimelineStatusBar } from "expo-status-bar";
 import { FlatList, TextInput } from "react-native-gesture-handler";
 import { TimelineItem } from "../components/TimelineItem";
 import { Timeline } from "../types/timeline";
+import useUsersInfomation from "../hooks/useUsersInfomation";
 
 const TimelineScreen = () => {
   const [text, setText] = useState<string>("");
-  const { timelinePosts, userId, getUsers, postTimeline, getTimeline, signIn } =
-    useTimeline();
+  const { timelinePosts, userId, postTimeline, getTimeline } = useTimeline();
+  const { signIn } = useUsersInfomation();
+  const { getUsers } = useUsersInfomation();
   const headerHeight = useHeaderHeight();
 
   useEffect(() => {

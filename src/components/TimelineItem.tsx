@@ -35,7 +35,9 @@ export const TimelineItem: React.FC<Props> = ({ item, userId }: Props) => {
             mb={1}
             rounded="full"
             style={TimelineItemStyles.likeButton}
-            onPress={() => sendLike(item.index, userId)}
+            onPress={() => {
+              sendLike(item.index, userId);
+            }}
             icon={
               <MaterialCommunityIcons
                 color={item.like.includes(userId) ? "#FF3333" : "#999"}

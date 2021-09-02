@@ -56,17 +56,11 @@ const useChat = () => {
     });
   };
 
-  const signIn = async () => {
-    const uid = await getUserId();
-    dispatch(setUserId(uid));
-  };
-
   return {
     messages,
     userId,
     sendMessage,
     getMessages,
-    signIn,
   };
 };
 export default useChat;

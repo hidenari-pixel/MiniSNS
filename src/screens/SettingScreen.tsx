@@ -3,8 +3,20 @@ import { StyleSheet } from "react-native";
 import { Button, Text, Box } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NavigationProps } from "../types/navigation";
+import useUsersInfomation from "../hooks/useUsersInfomation";
+import { useEffect } from "react";
+import useSetting from "../hooks/useSetting";
 
 const SettingScreen = (props: NavigationProps) => {
+  const { getUsers, signIn } = useUsersInfomation();
+  const { getUserDocId } = useSetting();
+
+  useEffect(() => {
+    signIn();
+    getUsers();
+    getUserDocId();
+  }, []);
+
   return (
     <SafeAreaView style={SettingScreenStyle.container}>
       <Box style={{ padding: 20 }}>

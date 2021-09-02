@@ -1,6 +1,5 @@
 import { Alert } from "react-native";
 import firebase from "firebase";
-import { getUserId } from "../lib/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Users } from "../types/users";
@@ -9,10 +8,10 @@ const useEnter = () => {
   const { userId, isLogin, isLoading } = useSelector(
     (state: AppState) => state
   );
-  const { setLogin, setUserId } = module.actions;
+  const { setLogin } = module.actions;
   const dispatch: AppDispatch = useDispatch();
 
-  const enterHome = async (userId: string) => {
+  const enterHome = (userId: string) => {
     const registeredUsers = [] as string[];
     const usersDB = firebase.firestore().collection("users");
     usersDB.onSnapshot((snapshot) => {
@@ -20,7 +19,6 @@ const useEnter = () => {
         const uid = user.data().userId;
         registeredUsers.unshift(uid);
         if (userId === uid) {
-          console.log(userId);
           const registeredPayload = {
             isLogin: true,
             isLoading: false,
@@ -58,16 +56,10 @@ const useEnter = () => {
     }
   };
 
-  const signIn = async () => {
-    const uid = await getUserId();
-    dispatch(setUserId(uid));
-  };
-
   return {
     userId,
     isLogin,
     isLoading,
-    signIn,
     enterHome,
     registerName,
   };

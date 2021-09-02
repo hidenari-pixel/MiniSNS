@@ -1,11 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ChatScreen from "./ChatScreen";
 import TimelineScreen from "./TimelineScreen";
 import StackSettingScreen from "./StackSettingScreen";
 import useUsersInfomation from "../hooks/useUsersInfomation";
 import EnterScreen from "./EnterScreen";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const BottomTabNavigationScreen = () => {
   const BottomTab = createBottomTabNavigator();

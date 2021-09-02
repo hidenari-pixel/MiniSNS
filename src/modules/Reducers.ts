@@ -8,6 +8,7 @@ const initialState = {
   users: [] as string[],
   userId: "" as string,
   postIndex: 0 as number,
+  docId: "" as string,
 };
 
 export const module = createSlice({
@@ -44,6 +45,12 @@ export const module = createSlice({
         ...state,
         isLogin: isLogin,
         isLoading: isLoading,
+      };
+    },
+    setDocId: (state, action) => {
+      return {
+        ...state,
+        docId: action.payload,
       };
     },
   },

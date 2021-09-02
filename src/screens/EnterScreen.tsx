@@ -4,13 +4,16 @@ import { StyleSheet } from "react-native";
 import { Container, Input, Button } from "native-base";
 import useEnter from "../hooks/useEnter";
 import Spinner from "react-native-loading-spinner-overlay";
+import useUsersInfomation from "../hooks/useUsersInfomation";
 
 const EnterScreen = () => {
   const [text, setText] = useState<string>("");
-  const { isLoading, userId, signIn, enterHome, registerName } = useEnter();
+  const { isLoading, userId, enterHome, registerName } = useEnter();
+  const { signIn, getUsers } = useUsersInfomation();
 
   useEffect(() => {
     signIn();
+    getUsers();
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         const userId = user.uid;

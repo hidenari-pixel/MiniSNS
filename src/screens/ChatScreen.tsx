@@ -14,14 +14,18 @@ import { StatusBar as ChatStatusBar } from "expo-status-bar";
 import { useHeaderHeight } from "@react-navigation/elements";
 import { Message } from "../types/Message";
 import { MessageItem } from "../components/MessageItem";
+import useUsersInfomation from "../hooks/useUsersInfomation";
 
 const ChatScreen = () => {
   const [text, setText] = useState<string>("");
-  const { messages, userId, sendMessage, getMessages, signIn } = useChat();
+  const { messages, userId, sendMessage, getMessages } = useChat();
+  const { signIn } = useUsersInfomation();
+  const { getUsers } = useUsersInfomation();
   const headerHeight = useHeaderHeight();
 
   useEffect(() => {
     signIn();
+    getUsers();
     getMessages();
   }, []);
 

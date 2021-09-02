@@ -1,6 +1,5 @@
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserId } from "../lib/firebase";
 import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Timeline } from "../types/timeline";
 import { Alert } from "react-native";
@@ -8,7 +7,7 @@ import { useState } from "react";
 
 const useTimeline = () => {
   const [timelinePosts, setPosts] = useState<Timeline[]>([]);
-  const { postIndex, userId } = useSelector((state: AppState) => state);
+  const { postIndex, userId, users } = useSelector((state: AppState) => state);
   const { setIndex, setUserId, setUserNames } = module.actions;
   const dispatch: AppDispatch = useDispatch();
 
@@ -38,8 +37,8 @@ const useTimeline = () => {
     const timelineDB = firebase.firestore().collection("timeline");
     timelineDB.orderBy("createdAt").onSnapshot((snapshot) => {
       snapshot.docChanges().map((change) => {
-        const { index, text, userId, like, createdAt } = change.doc.data();
         if (change.type === "added") {
+          const { index, text, userId, like, createdAt } = change.doc.data();
           pastTimelinePosts.unshift({
             createdAt: createdAt,
             index: index,
@@ -88,33 +87,12 @@ const useTimeline = () => {
     });
   };
 
-  const getUsers = () => {
-    const usersDB = firebase.firestore().collection("users");
-    const registeredUsers = [] as string[];
-    usersDB.onSnapshot((snapshot) => {
-      snapshot.docs.map((user) => {
-        const uid = user.data().userId;
-        const userName = user.data().name;
-        registeredUsers.push({
-          [uid]: userName,
-        } as string);
-      });
-      dispatch(setUserNames(registeredUsers));
-    });
-  };
-
-  const signIn = async () => {
-    const uid = await getUserId();
-    dispatch(setUserId(uid));
-  };
-
   return {
     timelinePosts,
     userId,
-    getUsers,
+    users,
     postTimeline,
     getTimeline,
-    signIn,
     sendLike,
   };
 };
