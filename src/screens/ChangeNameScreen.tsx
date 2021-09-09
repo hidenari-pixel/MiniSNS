@@ -1,24 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Box, Input, Text, Button } from "native-base";
 import { NavigationProps } from "../types/navigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useSetting from "../hooks/useSetting";
-import { useEffect } from "react";
-import { useState } from "react";
-
-// < 名前変更詳細 >
-//  「更新」ボタン ->
-//  (未入力の場合) : ボタンはdisable
-//  (入力済みの場合) : ボタンを押下後は前の画面にgoBack
-// 変更の処理は
-// firebase.firestore.collection("users").get().then
-// で該当するユーザーのドキュメントID取得して
-// firebasefirestore.collection("users").doc("ドキュメントID").set()かな
+import useUsersInfomation from "../hooks/useUsersInfomation";
 
 const ChangeNameScreen = (props: NavigationProps) => {
   const [text, setText] = useState<string>("");
-  const { changeName } = useSetting();
+  const { userId, changeName } = useSetting();
+  const { users, getUserName } = useUsersInfomation();
+  const userName = getUserName(users, userId);
 
   return (
     <SafeAreaView style={ChangeNameScreenStyle.container}>
@@ -27,7 +19,7 @@ const ChangeNameScreen = (props: NavigationProps) => {
           w="100%"
           mx={10}
           onChangeText={(value) => setText(value)}
-          placeholder="新しい名前を入力してください"
+          placeholder={`前の名前は『${userName}』です`}
           _light={{ placeholderTextColor: "blueGray.400" }}
           _dark={{ placeholderTextColor: "blueGray.50" }}
           value={text}

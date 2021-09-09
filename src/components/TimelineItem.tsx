@@ -21,9 +21,8 @@ export const TimelineItem: React.FC<Props> = ({ item, userId }: Props) => {
     <View style={TimelineItemStyles.container}>
       <View style={TimelineItemStyles.postContainer}>
         <Text style={TimelineItemStyles.userName}>
-          {"<"}
           {userName}
-          {"> の投稿"}
+          {" の投稿"}
           {"  "}
           <Text style={{ marginLeft: 10 }}>
             {dayjs(item.createdAt.toDate()).format("YYYY/MM/DD HH:mm")}

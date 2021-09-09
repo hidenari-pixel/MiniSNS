@@ -1,13 +1,13 @@
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getMessageDocRef, getUserId } from "../lib/firebase";
+import { getMessageDocRef } from "../lib/firebase";
 import firebase from "firebase";
 import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Message } from "../types/Message";
 
 const useChat = () => {
   const { messages, userId } = useSelector((state: AppState) => state);
-  const { setMessages, setUserId } = module.actions;
+  const { setMessages } = module.actions;
   const dispatch: AppDispatch = useDispatch();
 
   const sendMessage = async (value: string, uid: string | undefined) => {
@@ -26,32 +26,21 @@ const useChat = () => {
 
   const getMessages = () => {
     const pastMessages = [] as Message[];
-    let retensionMessage = [] as Message[];
-    let isPastFlag: boolean = true;
+    let cleanedUp: boolean = false;
     const messagesDB = firebase.firestore().collection("message");
     messagesDB.orderBy("createdAt").onSnapshot((snapshot) => {
       snapshot.docChanges().map((change) => {
         const { text, userId } = change.doc.data();
-        if (change.type === "added" && isPastFlag) {
+        if (change.type === "added" && !cleanedUp) {
           pastMessages.unshift({
             text: text,
             userId: userId,
           } as Message);
-        } else {
-          retensionMessage.unshift({
-            text: text,
-            userId: userId,
-          } as Message);
-          const currentMessage = [
-            ...retensionMessage,
-            ...pastMessages,
-          ] as Message[];
-          dispatch(setMessages(currentMessage));
         }
       });
-      if (isPastFlag) {
-        isPastFlag = false;
+      if (!cleanedUp) {
         dispatch(setMessages(pastMessages));
+        cleanedUp = true;
       }
     });
   };

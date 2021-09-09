@@ -5,12 +5,9 @@ import firebase from "firebase";
 
 const useUsersInfomation = () => {
   const { users, isLogin } = useSelector((state: AppState) => state);
-  const { setUserNames, setUserId } = module.actions;
+  const { setUsers, setUserId } = module.actions;
   const dispatch: AppDispatch = useDispatch();
 
-  // Warning: Can't perform a React state update on an unmounted component.
-  //  This is a no-op, but it indicates a memory leak in your application.
-  //  To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
   const getUsers = () => {
     const registeredUsers = [] as string[];
     let newUsers = [] as string[];
@@ -54,7 +51,7 @@ const useUsersInfomation = () => {
         }
       });
       if (!cleanedUp) {
-        dispatch(setUserNames(newUsers));
+        dispatch(setUsers(newUsers));
         cleanedUp = true;
       }
     });
@@ -71,15 +68,21 @@ const useUsersInfomation = () => {
         return item[userId];
       }
     });
-    return name;
+    return name === undefined ? "unknown" : name;
+  };
+
+  const getUserName = (users: string[], userId: any) => {
+    const userName = users.filter((user) => Object.keys(user)[0] === userId);
+    return userName.length === 0 ? "unknown" : userName[0][userId];
   };
 
   return {
-    users,
     isLogin,
+    users,
     signIn,
     getUsers,
     showName,
+    getUserName,
   };
 };
 

@@ -4,17 +4,43 @@ import { Message } from "../types/Message";
 const initialState = {
   isLogin: false as boolean,
   isLoading: true as boolean,
-  messages: [] as Message[],
   users: [] as string[],
   userId: "" as string,
-  postIndex: 0 as number,
   docId: "" as string,
+  messages: [] as Message[],
+  postIndex: 0 as number,
 };
 
 export const module = createSlice({
   name: "miniSns",
   initialState,
   reducers: {
+    setLogin: (state, action) => {
+      const { isLogin, isLoading } = action.payload;
+      return {
+        ...state,
+        isLogin: isLogin,
+        isLoading: isLoading,
+      };
+    },
+    setUserId: (state, action) => {
+      return {
+        ...state,
+        userId: action.payload,
+      };
+    },
+    setUsers: (state, action) => {
+      return {
+        ...state,
+        users: action.payload,
+      };
+    },
+    setDocId: (state, action) => {
+      return {
+        ...state,
+        docId: action.payload,
+      };
+    },
     setIndex: (state, action) => {
       return {
         ...state,
@@ -25,32 +51,6 @@ export const module = createSlice({
       return {
         ...state,
         messages: action.payload,
-      };
-    },
-    setUserId: (state, action) => {
-      return {
-        ...state,
-        userId: action.payload,
-      };
-    },
-    setUserNames: (state, action) => {
-      return {
-        ...state,
-        users: action.payload,
-      };
-    },
-    setLogin: (state, action) => {
-      const { isLogin, isLoading } = action.payload;
-      return {
-        ...state,
-        isLogin: isLogin,
-        isLoading: isLoading,
-      };
-    },
-    setDocId: (state, action) => {
-      return {
-        ...state,
-        docId: action.payload,
       };
     },
   },

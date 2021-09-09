@@ -1,21 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Text, Box } from "native-base";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NavigationProps } from "../types/navigation";
 import useUsersInfomation from "../hooks/useUsersInfomation";
-import { useEffect } from "react";
 import useSetting from "../hooks/useSetting";
 
 const SettingScreen = (props: NavigationProps) => {
-  const { getUsers, signIn } = useUsersInfomation();
+  const { users, getUsers } = useUsersInfomation();
   const { getUserDocId } = useSetting();
 
   useEffect(() => {
-    signIn();
     getUsers();
     getUserDocId();
-  }, []);
+  }, [JSON.stringify(users)]);
 
   return (
     <SafeAreaView style={SettingScreenStyle.container}>

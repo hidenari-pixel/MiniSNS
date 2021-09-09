@@ -1,23 +1,26 @@
-import firebase from "firebase";
+import { useState } from "react";
+import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import firebase from "firebase";
 import { AppState, AppDispatch, module } from "../modules/Reducers";
 import { Timeline } from "../types/timeline";
-import { Alert } from "react-native";
-import { useState } from "react";
 
 const useTimeline = () => {
   const [timelinePosts, setPosts] = useState<Timeline[]>([]);
   const { postIndex, userId, users } = useSelector((state: AppState) => state);
-  const { setIndex, setUserId, setUserNames } = module.actions;
+  const { setIndex } = module.actions;
   const dispatch: AppDispatch = useDispatch();
 
-  const postTimeline = async (value: string, uid: string | undefined) => {
+  const postTimeline = async (value: string, uid: string | undefined | any) => {
     const textLength = Array.from(value).length;
     if (textLength > 0 && textLength < 200) {
       const timelineDocRef = firebase
         .firestore()
         .collection("timeline")
         .doc(`doc${postIndex}`);
+      const userName = users
+        .map((user) => user[uid])
+        .filter((element) => element !== undefined);
       const newTimelinePosts = {
         text: value,
         createdAt: firebase.firestore.Timestamp.now(),
@@ -35,6 +38,8 @@ const useTimeline = () => {
   const getTimeline = () => {
     const pastTimelinePosts = [] as Timeline[];
     const timelineDB = firebase.firestore().collection("timeline");
+    let cleanedUp: boolean = false;
+    let newPosts = [] as Timeline[];
     timelineDB.orderBy("createdAt").onSnapshot((snapshot) => {
       snapshot.docChanges().map((change) => {
         if (change.type === "added") {
@@ -46,6 +51,7 @@ const useTimeline = () => {
             userId: userId,
             like: like,
           } as Timeline);
+          newPosts = [...pastTimelinePosts];
         } else if (change.type === "modified") {
           const { index, text, userId, like, createdAt } = change.doc.data();
           const modifiededPost = {
@@ -60,10 +66,13 @@ const useTimeline = () => {
             1,
             modifiededPost
           );
+          newPosts = [...pastTimelinePosts];
         }
       });
-      setPosts(pastTimelinePosts);
-      dispatch(setIndex(pastTimelinePosts.length));
+      if (!cleanedUp) {
+        setPosts(newPosts);
+        dispatch(setIndex(newPosts.length));
+      }
     });
   };
 
@@ -72,7 +81,6 @@ const useTimeline = () => {
       .firestore()
       .collection("timeline")
       .doc(`doc${postIndex}`);
-
     timelineDocDB.get().then((doc) => {
       const { like } = doc.data() as any;
       if (like.includes(userId)) {
@@ -90,7 +98,6 @@ const useTimeline = () => {
   return {
     timelinePosts,
     userId,
-    users,
     postTimeline,
     getTimeline,
     sendLike,

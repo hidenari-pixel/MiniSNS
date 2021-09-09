@@ -1,8 +1,8 @@
 import firebase from "firebase";
 
 export type Timeline = {
-  text: string;
   createdAt: firebase.firestore.Timestamp;
+  text: string;
   userId: string;
   like: string[];
   index: number;

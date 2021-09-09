@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import firebase from "firebase";
 import { StyleSheet } from "react-native";
-import { Container, Input, Button } from "native-base";
-import useEnter from "../hooks/useEnter";
+import { Input, Button } from "native-base";
+import firebase from "firebase";
 import Spinner from "react-native-loading-spinner-overlay";
+import { SafeAreaView } from "react-native-safe-area-context";
+import useEnter from "../hooks/useEnter";
 import useUsersInfomation from "../hooks/useUsersInfomation";
 
 const EnterScreen = () => {
@@ -23,7 +24,7 @@ const EnterScreen = () => {
   }, []);
 
   return (
-    <Container flex={1} style={EnterScreenStyle.container}>
+    <SafeAreaView style={EnterScreenStyle.container}>
       <Spinner
         visible={isLoading}
         textContent="Loading..."
@@ -31,7 +32,6 @@ const EnterScreen = () => {
       />
       <Input
         w="100%"
-        mx={10}
         onChangeText={(value) => setText(value)}
         placeholder="名前を入力してください"
         _light={{ placeholderTextColor: "blueGray.400" }}
@@ -51,7 +51,7 @@ const EnterScreen = () => {
           </Button>
         }
       />
-    </Container>
+    </SafeAreaView>
   );
 };
 
@@ -59,7 +59,9 @@ export default EnterScreen;
 
 const EnterScreenStyle = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: "center",
+    width: "100%",
   },
   loadingSpinner: {
     alignSelf: "center",

@@ -19,15 +19,17 @@ import useUsersInfomation from "../hooks/useUsersInfomation";
 const ChatScreen = () => {
   const [text, setText] = useState<string>("");
   const { messages, userId, sendMessage, getMessages } = useChat();
-  const { signIn } = useUsersInfomation();
+  const { users, signIn, showName } = useUsersInfomation();
   const { getUsers } = useUsersInfomation();
   const headerHeight = useHeaderHeight();
+
+  const userName = showName(users, userId)[0];
 
   useEffect(() => {
     signIn();
     getUsers();
     getMessages();
-  }, []);
+  }, [userName]);
 
   return (
     <SafeAreaView style={ChatScreenStyles.container}>

@@ -1,12 +1,12 @@
+import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase";
 import { AppDispatch, AppState, module } from "../modules/Reducers";
-import { Alert } from "react-native";
 import { NavigationProps } from "../types/navigation";
 
 const useSetting = () => {
   const { userId, docId } = useSelector((state: AppState) => state);
-  const { setLogin, setDocId, setUserNames } = module.actions;
+  const { setLogin, setDocId, setUsers } = module.actions;
   const dispatch: AppDispatch = useDispatch();
 
   const getUserDocId = async () => {
@@ -35,7 +35,7 @@ const useSetting = () => {
               const userName = user.data().name;
               usersName.push(userName);
             });
-            dispatch(setUserNames(usersName));
+            dispatch(setUsers(usersName));
           });
         });
     } else {
@@ -56,7 +56,6 @@ const useSetting = () => {
 
   const deleteAccount = () => {
     const usersDB = firebase.firestore().collection("users");
-    console.log(docId);
     usersDB
       .doc(docId)
       .delete()
@@ -67,7 +66,7 @@ const useSetting = () => {
             const userName = user.data().name;
             usersName.push(userName);
           });
-          dispatch(setUserNames(usersName));
+          dispatch(setUsers(usersName));
           dispatch(setLogin(false));
         });
       });
