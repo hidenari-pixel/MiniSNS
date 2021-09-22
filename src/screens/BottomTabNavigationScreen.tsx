@@ -1,13 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ChatScreen from "./ChatScreen";
-import TimelineScreen from "./TimelineScreen";
-import StackSettingScreen from "./StackSettingScreen";
-import useUsersInfomation from "../hooks/useUsersInfomation";
+import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import EnterScreen from "./EnterScreen";
+import TimelineScreen from "./TimelineScreen";
+import ChatScreen from "./ChatScreen";
+import SettingScreen from "./SettingScreen";
+import useUsersInfomation from "../hooks/useUsersInfomation";
+import { NavigationProps } from "../types/navigation";
 
-const BottomTabNavigationScreen = () => {
+const BottomTabNavigationScreen = (props: NavigationProps) => {
   const BottomTab = createBottomTabNavigator();
   const { isLogin } = useUsersInfomation();
   if (!isLogin) {
@@ -31,6 +32,17 @@ const BottomTabNavigationScreen = () => {
               color={color}
             />
           ),
+          headerRight: () => (
+            <FontAwesome.Button
+              name="pencil-square-o"
+              onPress={() => {
+                props.navigation.navigate("post");
+              }}
+              iconStyle={{ marginLeft: 10 }}
+              backgroundColor="#fff"
+              color="#1e90ff"
+            />
+          ),
         }}
       />
       <BottomTab.Screen
@@ -43,8 +55,8 @@ const BottomTabNavigationScreen = () => {
         }}
       />
       <BottomTab.Screen
-        name="SETTINGS"
-        component={StackSettingScreen}
+        name="ACCOUNT"
+        component={SettingScreen}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons

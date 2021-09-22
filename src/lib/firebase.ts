@@ -16,15 +16,23 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-export const getMessageDocRef = async () => {
-  return await firebase.firestore().collection("message").doc();
+export const getMessageDocRef = async (uid: string | undefined) => {
+  return firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .collection("messages");
 };
 
-export const getTimelineDocRef = async () => {
-  return await firebase.firestore().collection("timeline").doc();
+export const getTimelineDocRef = async (uid: string | undefined) => {
+  return firebase.firestore().collection("users").doc(uid).collection("posts");
 };
 
 export const getUserId = async () => {
   const userCredential = await firebase.auth().signInAnonymously();
   return userCredential.user?.uid;
+};
+
+export const getImageDocRef = async (uid: string | undefined) => {
+  return firebase.firestore().collection("users").doc(uid).collection("images");
 };

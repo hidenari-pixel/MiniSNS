@@ -20,7 +20,7 @@ const DeleteAccountScreen = (props: NavigationProps) => {
         </Button>
       </Box>
       <Box style={DeleteAccountScreenStyle.backButton}>
-        <Button onPress={() => props.navigation.goBack("setting")}>
+        <Button onPress={() => props.navigation.goBack()}>
           <Text>前の画面に戻る</Text>
         </Button>
       </Box>

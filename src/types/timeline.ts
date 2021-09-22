@@ -5,5 +5,5 @@ export type Timeline = {
   text: string;
   userId: string;
   like: string[];
-  index: number;
+  postId: string;
 };

@@ -9,8 +9,8 @@ import useUsersInfomation from "../hooks/useUsersInfomation";
 const ChangeNameScreen = (props: NavigationProps) => {
   const [text, setText] = useState<string>("");
   const { userId, changeName } = useSetting();
-  const { users, getUserName } = useUsersInfomation();
-  const userName = getUserName(users, userId);
+  const { users, showName } = useUsersInfomation();
+  const userName = showName(users, userId);
 
   return (
     <SafeAreaView style={ChangeNameScreenStyle.container}>
@@ -19,7 +19,7 @@ const ChangeNameScreen = (props: NavigationProps) => {
           w="100%"
           mx={10}
           onChangeText={(value) => setText(value)}
-          placeholder={`前の名前は『${userName}』です`}
+          placeholder={`現在の名前は『${userName}』です`}
           _light={{ placeholderTextColor: "blueGray.400" }}
           _dark={{ placeholderTextColor: "blueGray.50" }}
           value={text}
@@ -29,7 +29,7 @@ const ChangeNameScreen = (props: NavigationProps) => {
               roundedLeft={0}
               roundedRight="md"
               onPress={() => {
-                changeName(text, props);
+                changeName(text, props, userId);
                 setText("");
               }}
             >
@@ -39,7 +39,7 @@ const ChangeNameScreen = (props: NavigationProps) => {
         />
       </Box>
       <Box style={ChangeNameScreenStyle.backButton}>
-        <Button onPress={() => props.navigation.goBack("setting")}>
+        <Button onPress={() => props.navigation.goBack()}>
           <Text>前の画面に戻る</Text>
         </Button>
       </Box>

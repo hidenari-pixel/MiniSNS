@@ -10,11 +10,12 @@ import useUsersInfomation from "../hooks/useUsersInfomation";
 const EnterScreen = () => {
   const [text, setText] = useState<string>("");
   const { isLoading, userId, enterHome, registerName } = useEnter();
-  const { signIn, getUsers } = useUsersInfomation();
+  const { signIn, getUsers, getImages } = useUsersInfomation();
 
   useEffect(() => {
     signIn();
     getUsers();
+    getImages();
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         const userId = user.uid;

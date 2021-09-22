@@ -22,8 +22,7 @@ const ChatScreen = () => {
   const { users, signIn, showName } = useUsersInfomation();
   const { getUsers } = useUsersInfomation();
   const headerHeight = useHeaderHeight();
-
-  const userName = showName(users, userId)[0];
+  const userName = showName(users, userId);
 
   useEffect(() => {
     signIn();

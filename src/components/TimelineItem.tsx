@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { IconButton } from "native-base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import dayjs from "dayjs";
 import useTimeline from "../hooks/useTimeline";
 import useUsersInfomation from "../hooks/useUsersInfomation";
 import { Timeline } from "../types/timeline";
-import dayjs from "dayjs";
 
 type Props = {
   userId: string;
@@ -14,20 +14,26 @@ type Props = {
 
 export const TimelineItem: React.FC<Props> = ({ item, userId }: Props) => {
   const { sendLike } = useTimeline();
-  const { users, showName } = useUsersInfomation();
+  const { users, images, defaultImage, showImage, showName } =
+    useUsersInfomation();
   const userName = showName(users, item.userId);
+  const imageUri =
+    images.length === undefined ? defaultImage : showImage(images, item.userId);
 
   return (
     <View style={TimelineItemStyles.container}>
       <View style={TimelineItemStyles.postContainer}>
-        <Text style={TimelineItemStyles.userName}>
-          {userName}
-          {" の投稿"}
-          {"  "}
-          <Text style={{ marginLeft: 10 }}>
-            {dayjs(item.createdAt.toDate()).format("YYYY/MM/DD HH:mm")}
+        <View style={TimelineItemStyles.profielContaner}>
+          <Image source={{ uri: imageUri }} style={TimelineItemStyles.image} />
+          <Text style={TimelineItemStyles.userName}>
+            {userName}
+            {" の投稿"}
+            {"  "}
+            <Text style={{ marginLeft: 10 }}>
+              {dayjs(item.createdAt.toDate()).format("YYYY/MM/DD HH:mm")}
+            </Text>
           </Text>
-        </Text>
+        </View>
         <Text style={TimelineItemStyles.postedText}>{item.text}</Text>
         <View style={TimelineItemStyles.likeButtonContainer}>
           <IconButton
@@ -35,7 +41,7 @@ export const TimelineItem: React.FC<Props> = ({ item, userId }: Props) => {
             rounded="full"
             style={TimelineItemStyles.likeButton}
             onPress={() => {
-              sendLike(item.index, userId);
+              sendLike(item.postId, item.userId, userId);
             }}
             icon={
               <MaterialCommunityIcons
@@ -58,7 +64,7 @@ const TimelineItemStyles = StyleSheet.create({
   container: {
     flexDirection: "row",
     backgroundColor: "#fff",
-    borderBottomWidth: 0.8,
+    borderBottomWidth: 0.2,
     borderColor: "#999",
   },
   postContainer: {
@@ -68,11 +74,20 @@ const TimelineItemStyles = StyleSheet.create({
     paddingLeft: 3,
     backgroundColor: "#fff",
   },
+  profielContaner: {
+    flexDirection: "row",
+  },
+  image: {
+    width: 30,
+    height: 30,
+    borderRadius: 100,
+  },
   userName: {
     width: "50%",
     fontSize: 10,
     color: "#003",
-    paddingBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 20,
     paddingLeft: 8,
   },
   postedText: {
