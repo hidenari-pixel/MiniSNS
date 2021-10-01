@@ -1,15 +1,25 @@
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
+} from "@env";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDhNtsRGvdY44kXlLLd26QG8eOKJw_5q9M",
-  authDomain: "chatapppractice-91c36.firebaseapp.com",
-  projectId: "chatapppractice-91c36",
-  storageBucket: "chatapppractice-91c36.appspot.com",
-  messagingSenderId: "318065732324",
-  appId: "1:318065732324:web:69ef15b20b6927d511daf1",
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
 };
+
+console.log(firebaseConfig);
 
 // Initialize Firebase
 if (!firebase.apps.length) {
