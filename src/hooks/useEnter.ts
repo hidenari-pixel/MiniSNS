@@ -1,5 +1,5 @@
 import { Alert } from "react-native";
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState, AppDispatch, appSlice } from "../modules/Modules";
 import { Users } from "../types/users";

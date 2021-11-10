@@ -53,17 +53,6 @@ export const appSlice = createSlice({
         images: action.payload,
       };
     },
-    // setImageUrls: (state, action) => {
-    //   const { userId, url } = action.payload as any;
-    //   const imageUrl = state.imageUrls.filter(
-    //     (item) => Object.keys(item)[0] !== userId
-    //   );
-    //   const newState = [...imageUrl, { [userId]: url }];
-    //   return {
-    //     ...state,
-    //     imageUrls: newState,
-    //   };
-    // },
   },
 });
 

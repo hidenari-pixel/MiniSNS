@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Input, Button } from "native-base";
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
 import Spinner from "react-native-loading-spinner-overlay";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useEnter from "../hooks/useEnter";

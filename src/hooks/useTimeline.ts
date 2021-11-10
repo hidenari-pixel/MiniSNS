@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import firebase from "firebase";
-import { AppState, AppDispatch, appSlice } from "../modules/Modules";
+import firebase from "firebase/compat/app";
+import { AppState, AppDispatch } from "../modules/Modules";
 import { Timeline } from "../types/timeline";
 import { getTimelineDocRef } from "../lib/firebase";
 import { NavigationProps } from "../types/navigation";
@@ -10,7 +10,6 @@ import { NavigationProps } from "../types/navigation";
 const useTimeline = () => {
   const [timelinePosts, setTimelinePosts] = useState<Timeline[]>([]);
   const { userId } = useSelector((state: AppState) => state);
-  const dispatch: AppDispatch = useDispatch();
 
   const postTimeline = async (
     value: string,

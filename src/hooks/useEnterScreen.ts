@@ -1,15 +1,15 @@
 import { Alert } from "react-native";
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
 import { getUserId } from "../lib/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { AppState, AppDispatch, module } from "../modules/Reducers";
+import { AppState, AppDispatch, appSlice } from "../modules/Modules";
 import { Users } from "../types/users";
 
 const useEnterScreen = () => {
   const { userId, isLogin, isLoading } = useSelector(
     (state: AppState) => state
   );
-  const { setLogin, setUserId } = module.actions;
+  const { setLogin, setUserId } = appSlice.actions;
   const dispatch: AppDispatch = useDispatch();
 
   const enterHome = async (userId: string) => {

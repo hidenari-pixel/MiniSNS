@@ -2,14 +2,13 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getMessageDocRef } from "../lib/firebase";
-import firebase from "firebase";
-import { AppState, AppDispatch, appSlice } from "../modules/Modules";
+import firebase from "firebase/compat/app";
+import { AppState, AppDispatch } from "../modules/Modules";
 import { Message } from "../types/Message";
 
 const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const { userId } = useSelector((state: AppState) => state);
-  const dispatch: AppDispatch = useDispatch();
 
   const sendMessage = async (value: string, uid: string | undefined) => {
     if (value != "") {

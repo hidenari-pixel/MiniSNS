@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, AppState, appSlice } from "../modules/Modules";
 import { getUserId } from "../lib/firebase";
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
 import { Users } from "../types/users";
 import { Images } from "../types/images";
 
